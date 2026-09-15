@@ -1,7 +1,8 @@
-import {cart , removeFromCart} from '../data/cart.js';
+import {cart , removeFromCart , calculateCartQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
-
+ 
+updateCartQuantity();
 
 let cartSummaryHTML = '';
 
@@ -105,8 +106,17 @@ document.querySelectorAll('.js-delete-link')
    link.addEventListener('click' , () => {
     const productId = link.dataset.productId;
     removeFromCart(productId);
+    updateCartQuantity();
 
     const container = document.querySelector(`.js-cart-item-container-${productId}`);
     container.remove();
    });
  });
+
+ function updateCartQuantity() {
+   const cartQuantity = calculateCartQuantity();
+      
+     document.querySelector('.js-return-to-home-link').innerHTML= `Checkout(${cartQuantity}items)`;
+
+ }
+ 
